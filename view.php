@@ -23,17 +23,9 @@ $voorraad = $voorraad[1];
 
         <form action="cart.php" method="POST">
             <input type="hidden" name="product_id" value="<?php print $StockItem['StockItemID']; ?>">
-            <input type="number" name="aantalProducten" min="1" max="<?php print($voorraad); ?>">
-            <input type="submit" name="submit" value="Voeg toe aan winkelmandje">
+            <input type="hidden" name="aantal" value="1">
+            <input type="submit" name="addToCart" value="Voeg toe aan winkelmandje">
         </form>
-
-        <?php
-        if (isset($_POST["submit"])) {              // zelfafhandelend formulier
-            $stockItemID = $StockItem["StockItemID"];
-            print("Het product is toegevoegd aan <a href='winkelmandje.php'> winkelmandje!</a>");
-        }
-
-        ?>
 
         <div id="ArticleHeader">
             <?php
@@ -95,11 +87,6 @@ $voorraad = $voorraad[1];
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
-
-
-
-
-
             <div class="QuantityText"><?php print $StockItem['QuantityOnHand']; ?></div>
             <div id="StockItemHeaderLeft">
                 <div class="CenterPriceLeft">

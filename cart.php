@@ -1,36 +1,52 @@
 <?php
 include __DIR__ . "/header.php";
 
-$StockItem = getStockItem($_POST['product_id'], $databaseConnection);
-$StockItemImage = getStockItemImage($_POST['product_id'], $databaseConnection);
+if (isset($_POST['addToCart'])) { // Check of de knop "Voeg toe aan winkelwagen" ingedrukt is
+    $product_id = $_POST['product_id'];
+    $product = getStockItem($_POST['product_id'], $databaseConnection); // Haal product die aan winkelwagen toegevoegd moet worden uit de database.
 
-$voorraad = explode(': ', $StockItem['QuantityOnHand']);
-$voorraad = $voorraad[1];
+    // Array aanmaken met de productgegevens erin
+    $cart = array(
+        'product_id' => $product_id,
+        'productName' => $product['StockItemName'],
+        'productPrijs' => $product['SellPrice'],
+        'aantal' => $_POST['aantal'],
+        'totaalPrijs' => number_format($_POST['aantal'] * $product['SellPrice']),
+    );
 
-if (!empty($_POST["aantalProducten"])) {
-    $productByCode = $databaseConnection->prepare("SELECT * FROM stockitems WHERE StockItemID='" . $_POST["product_id"] . "'");
-    $productByCode->execute();
-    $productByCode = $productByCode->fetch();
+    // $cart toevoegen aan een $_SESSION variabele.
+    $_SESSION['cart'][] = $cart;
+}
 
-    $itemArray = array($productByCode["product_id"] => array('product_name' => $productByCode["StockItemName"], 'product_id' => $productByCode["StockItemID"], 'voorraad' => $voorraad, 'prijs' => $productByCode["RecommendedRetailPrice"]));
-    if (!empty($_SESSION["cart_item"])) {
-        if (in_array($productByCode[0]["product_id"], array_keys($_SESSION["cart_item"]))) {
-            foreach ($_SESSION["cart_item"] as $k => $v) {
-                if ($productByCode[0]["product_id"] == $k) {
-                    if (empty($_SESSION["cart_item"][$k]["voorraad"])) {
-                        $_SESSION["cart_item"][$k]["voorraad"] = 0;
-                    }
-                    $_SESSION["cart_item"][$k]["voorraad"] += $_POST["voorraad"];
-                }
+// Code voor het verwijderen van een product uit de winkelwagen
+if (isset($_GET["action"])) {
+    if ($_GET["action"] == "delete") {
+        foreach ($_SESSION["cart"] as $key => $value) {
+            if ($value['product_id'] == $_GET["id"]) {
+                unset($_SESSION['cart'][$key]); // Verwijder de item uit de sessie (Winkelwagen)
+                echo '<script>window.location="../cart.php"</script>'; //Redirect de klant naar de winkelwagen
             }
-        } else {
-            $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"], $itemArray);
-            print($_SESSION['cart_item']);
         }
-    } else {
-        $_SESSION["cart_item"] = $itemArray;
     }
 }
+
+// Update product quantities in cart if the user clicks the "Update" button on the shopping cart page
+if (isset($_POST['update']) && isset($_SESSION['cart'])) {
+    // Loop through the post data so we can update the quantities for every product in cart
+    foreach ($_POST as $k => $v) {
+        if (strpos($k, 'quantity') !== false && is_numeric($v)) {
+            $id = str_replace('quantity-', '', $k);
+            $quantity = (int)$v;
+            // Always do checks and validation
+            if (is_numeric($id) && isset($_SESSION['cart'][$id]) && $quantity > 0) {
+                // Update new quantity
+                $_SESSION['cart'][$id] = $quantity;
+            }
+        }
+    }
+    print_r($_SESSION['cart']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -39,60 +55,61 @@ if (!empty($_POST["aantalProducten"])) {
     <title>Winkelwagen</title>
 </head>
 <body>
-<h1>Inhoud Winkelwagen</h1>
+<h1 class="text-center">Inhoud Winkelwagen</h1>
 <div id="shopping-cart">
-<div class="txt-heading">Shopping Cart</div>
-
-<a id="btnEmpty" href="index.php?action=empty">Empty Cart</a>
 <?php
-if(isset($_SESSION["cart_item"])){
-    $total_quantity = 0;
-    $total_price = 0;
+if(!empty($_SESSION['cart']) && isset($_SESSION['cart'])){ // Zeker weten dat de session niet leeg is.
+    $totaalAantal = 0;
+    $cartPrijs = 0;
 ?>	
+<div class="container">
+    <form action="cart.php" method="POST">
 <table class="tbl-cart" cellpadding="10" cellspacing="1">
-<tbody>
+<tbody class="text-center">
 <tr>
-<th style="text-align:left;">Name</th>
-<th style="text-align:left;">Code</th>
-<th style="text-align:right;" width="5%">Quantity</th>
-<th style="text-align:right;" width="10%">Unit Price</th>
-<th style="text-align:right;" width="10%">Price</th>
-<th style="text-align:center;" width="5%">Remove</th>
+<th>Productnaam</th>
+<th>Product ID</th>
+<th width="5%">Aantal</th>
+<th>Prijs per stuk</th>
+<th>Totaalprijs</th>
+<th>Verwijderen</th>
 </tr>	
-<?php		
-    foreach ($_SESSION["cart_item"] as $item){
-        $item_price = $item["voorraad"]*$item["prijs"];
-		?>
+<?php
+    foreach ($_SESSION["cart"] as $item) {
+        if(isset($item['productName'])) { // Kijken of productnaam aanwezig is, zodat je niet lege velden krijgt, en checken of je niet twee x dezelfde toevoegd.
+        ?>
 				<tr>
-				<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["product_name"]; ?></td>
-				<td><?php echo $item["code"]; ?></td>
-				<td style="text-align:right;"><?php echo $item["voorraad"]; ?></td>
-				<td  style="text-align:right;"><?php echo "$ ".$item["prijs"]; ?></td>
-				<td  style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
-				<td style="text-align:center;"><a href="index.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="icon-delete.png" alt="Remove Item" /></a></td>
-				</tr>
-				<?php
-				$total_quantity += $item["voorraad"];
-				$total_price += ($item["prijs"]*$item["voorraad"]);
-		}
+				<td><?php echo $item["productName"]; ?></td>
+				<td><?php echo $item["product_id"]; ?></td>
+				<td width="10%"><input type="number" name="quantity-<?=$item['product_id']; ?>" value="<?=$_SESSION['cart'][$item['product_id']]; ?>" min="1" max="100" required></td>
+				<td><?php echo "€ ". number_format($item["productPrijs"], 2); ?></td>
+				<td><?php echo "€ ". number_format($item['totaalPrijs'], 2); ?></td>
+                <td><a href="cart.php/?action=delete&id=<?php print $item['product_id']; ?>"><i class="far fa-trash-alt"></i></a></td>
+        </tr>
+        <?php
+                $prevItem = $item['productName'];
+				$totaalAantal += $item["aantal"];
+				$cartPrijs += ($item['totaalPrijs']);
+            }
+        }
 		?>
-
 <tr>
-<td colspan="2" align="right">Total:</td>
-<td align="right"><?php echo $total_quantity; ?></td>
-<td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong></td>
-<td></td>
+<td>Totaalprijs:</td>
+<td><strong><?php echo "€ ".number_format($cartPrijs, 2); ?></strong></td>
+<td><input type="submit" value="Update" name="update"></td>
 </tr>
 </tbody>
-</table>		
+</table>
+</form>
+</div>		
   <?php
 } else {
 ?>
-<div class="no-records">Your Cart is Empty</div>
+<h3 class="text-center cart-empty">Winkelwagen is leeg</h3>
+<p class="text-center"><a class="cart-ref" href="./">Terug naar winkel</a></p>
 <?php 
 }
 ?>
 </div>
-<p><a href='../nerdy/'>Terug naar homescherm</a></p>
 </body>
 </html>

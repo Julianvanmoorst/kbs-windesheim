@@ -493,4 +493,13 @@ ul#ul-class-price li {
     color: white;
 }
 
+.cart-empty {
+    margin-top: 2.5rem;
+    color: yellow;
+}
+.cart-ref {
+    margin-top: 1.25rem;
+    font-size: 24px;
+}
+
 /* Einde van winkelwagen styling */
