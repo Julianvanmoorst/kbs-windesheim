@@ -93,7 +93,7 @@ if (isset($_POST["addToCart"])) {
                         <form method="POST">
                             <input type="hidden" name="product_id" value="<?php print $StockItem['StockItemID']; ?>">
                             <input type="hidden" name="aantal" value="1">
-                            <input type="submit" name="addToCart" value="Voeg toe aan winkelmandje">
+                            <input type="submit" class="addCartBTN" name="addToCart" value="Toevoegen aan winkelwagen">
                         </form>
                     </div>
                 </div>

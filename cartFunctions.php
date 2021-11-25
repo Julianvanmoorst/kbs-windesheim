@@ -31,8 +31,9 @@ function deleteProductFromCart($StockItemID)
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'delete') {
             foreach ($_SESSION['cart'] as $key => $value) {
-                if ($value['product_id'] == $_GET['id']) {
+                if ($key == $_GET['id']) {
                     unset($_SESSION['cart'][$key]);
+                    echo '<script>window.location="../cart.php"</script>';
                 }
             }
         }

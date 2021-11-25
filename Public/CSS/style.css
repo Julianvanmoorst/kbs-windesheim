@@ -189,7 +189,7 @@ ul#ul-class-navigation li {
     position: absolute;
     height: 100%;
     right: 0;
-    width: 200px;
+    width: 250px;
 }
 .CenterPriceLeftChild {
     position: relative;
@@ -502,4 +502,57 @@ ul#ul-class-price li {
     font-size: 24px;
 }
 
+.addCartBTN {
+    color: white;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    background-color: #676EFF;
+    border-color: #676EFF;
+}
+
+.cartProductIMG {
+    background-color: #676EFF;
+    width: 230px;
+    height: 230px;
+    background-color: rgb(36, 41, 143);
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.cartItemName,
+.cartDescriptionText,
+.cartSellPrice {
+    color: #676EFF;
+    font-family: vortice-concept, sans-serif;
+}
+
+.cartArtikelNR {
+    font-family: vortice-concept, sans-serif;
+}
+.cartArtikelNR,
+.cartDescriptionText {
+    font-size: 12px;
+}
+
+.cartDescriptionText {
+    margin-top: 2.5rem;
+}
+
+.cartDescription {
+    margin-top: -1rem;
+}
+
+.cartSellPrice {
+    margin-top: 2.5rem;
+}
+
+.cartSellBTW {
+    color: white;
+}
 /* Einde van winkelwagen styling */
