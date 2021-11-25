@@ -1,12 +1,18 @@
 <!-- dit bestand bevat alle code voor de pagina die één product laat zien -->
 <?php
 include __DIR__ . "/header.php";
-
+include __DIR__ . "/cartFunctions.php";
 $StockItem = getStockItem($_GET['id'], $databaseConnection);
 $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
 
 $voorraad = explode(': ', $StockItem['QuantityOnHand']);
 $voorraad = $voorraad[1];
+
+
+if (isset($_POST["addToCart"])) {
+    addProductToCart($StockItem['StockItemID']);
+}
+
 ?>
 <div id="CenteredContent">
     <?php
@@ -20,13 +26,6 @@ $voorraad = $voorraad[1];
             </div>
         <?php }
         ?>
-
-        <form action="cart.php" method="POST">
-            <input type="hidden" name="product_id" value="<?php print $StockItem['StockItemID']; ?>">
-            <input type="hidden" name="aantal" value="1">
-            <input type="submit" name="addToCart" value="Voeg toe aan winkelmandje">
-        </form>
-
         <div id="ArticleHeader">
             <?php
             if (isset($StockItemImage)) {
@@ -57,8 +56,6 @@ $voorraad = $voorraad[1];
                                     <div class="carousel-item <?php print ($i == 0) ? 'active' : ''; ?>">
                                         <img src="Public/StockItemIMG/<?php print $StockItemImage[$i]['ImagePath'] ?>">
                                     </div>
-
-
                                 <?php } ?>
                             </div>
 
@@ -93,6 +90,11 @@ $voorraad = $voorraad[1];
                     <div class="CenterPriceLeftChild">
                         <p class="StockItemPriceText"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                         <h6> Inclusief BTW </h6>
+                        <form method="POST">
+                            <input type="hidden" name="product_id" value="<?php print $StockItem['StockItemID']; ?>">
+                            <input type="hidden" name="aantal" value="1">
+                            <input type="submit" name="addToCart" value="Voeg toe aan winkelmandje">
+                        </form>
                     </div>
                 </div>
             </div>
