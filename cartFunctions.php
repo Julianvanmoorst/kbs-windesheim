@@ -47,5 +47,5 @@ function editProduct($stockItemID, $nieuwAantal, $cart)
     } else {
         $cart[$stockItemID] = $nieuwAantal;
     }
-    return $cart;
+    return saveCart($cart);
 }

@@ -91,7 +91,6 @@ if (isset($_POST["addToCart"])) {
                         <p class="StockItemPriceText"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                         <h6> Inclusief BTW </h6>
                         <form method="POST">
-                            <input type="hidden" name="product_id" value="<?php print $StockItem['StockItemID']; ?>">
                             <input type="hidden" name="aantal" value="1">
                             <input type="submit" class="addCartBTN" name="addToCart" value="Toevoegen aan winkelwagen">
                         </form>

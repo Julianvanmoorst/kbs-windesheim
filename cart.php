@@ -2,9 +2,16 @@
 include __DIR__ . "/header.php";
 include __DIR__ . "/cartFunctions.php";
 // Foreach loop maken over cart om resultaat op te halen
-
 if (isset($_GET['action'])) {
-    deleteProductFromCart($_GET['id']);
+    if ($_GET['action'] == 'delete') {
+        deleteProductFromCart($_GET['id']);
+    }
+    
+    if($_GET['action'] == 'edit') {
+        if(isset($_POST['nieuwAantal'])){
+            editProduct($_GET['id'], $_POST['nieuwAantal'], $_SESSION['cart']);
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -23,37 +30,48 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
     ?>
 <div class="container">
     <div class="row">
+        <div class="col-md-8 outerCartWrapper">
         <?php
     foreach ($_SESSION["cart"] as $itemID => $item) {
         $product = getStockItem($itemID, $databaseConnection);
         $productIMG = getStockItemImage($itemID, $databaseConnection);
-        // var_dump($productIMG[0]['ImagePath']);
         if (isset($product['StockItemName'])) { ?>
-                <div class="col-xs-6">
+                <div class="col-xs-6 cartImgWrapper">
                     <img src="Public/StockItemIMG/<?php print($productIMG[0]['ImagePath']); ?>" class="cartProductIMG" alt="<?php print($productIMG[0]['ImagePath']);?>">
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-6 cartContentWrapper">
                     <h5 class="cartItemName"><?php echo $product['StockItemName']; ?></h5>
-                    <p class="cartArtikelNR">Artikelnummer: <?php print($product['StockItemID']); ?></p>
+                    <div class="cartArtikelNR">Artikelnummer: <?php print($product['StockItemID']); ?></div>
                     <p class="cartDescriptionText">Beschrijving: </p>
                     <p class="cartDescription"><?php print($product['SearchDetails']);?></p>
-                    <form method="POST">
-                        <label for="nieuwAantal" class="">Aantal: </label>
-                        <input type="number">
+                    <div class="text-right cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW">Inclusief BTW.</b></div>
+                    <form action="cart.php?action=edit&id=<?php print $itemID; ?>" method="POST">
+                        <p class="nieuwAantalText"><label for="nieuwAantal">Aantal: <br><input type="number" name="nieuwAantal" value="<?php print($item);?>"></label></p>
                     </form>
-                    <p class="cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW">Inclusief BTW.</b></p>
-                <td><?php echo $product['StockItemID']; ?></td>
-                    <td><?php echo $item;?></td>
-                    <td><?php echo "€ " . number_format($product["SellPrice"], 2); ?></td>
-                    <td><?php echo "€ " . number_format($item * $product['SellPrice'], 2); ?></td>
-                    <td><a href="cart.php/?action=delete&id=<?php print $itemID; ?>"><i class="far fa-trash-alt"></i></a></td>
                 </div>
+                <hr class="cartItemSeperator">
             <?php
                 $cartPrijs += ($item * $product['SellPrice']);
+                $totaalAantal += $item;
             }
         }
         ?>
-<!-- <td><strong>echo "€ " . number_format($cartPrijs, 2); ?></strong></td> -->
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5 class="text-center"><b>Overzicht</b></h5>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col aantalProductenText">Aantal Producten: </div>
+                <div class="col text-right"><?php print($totaalAantal); ?></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col totaalPrijsText">Totaal prijs: </div>
+                <div class="col text-right"><?php print("&euro;" . number_format($cartPrijs, 2));?></div>
+            </div> <input type="submit" class="btn btn-primary" value="Betalen">
+        </div>
     </div>
 </div>
   <?php

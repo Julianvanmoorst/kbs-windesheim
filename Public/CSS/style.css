@@ -502,6 +502,11 @@ ul#ul-class-price li {
     font-size: 24px;
 }
 
+.btn-primary {
+    background-color: #676EFF !important;
+    border-color: #676EFF !important;
+}
+
 .addCartBTN {
     color: white;
     display: inline-block;
@@ -517,8 +522,8 @@ ul#ul-class-price li {
 
 .cartProductIMG {
     background-color: #676EFF;
-    width: 230px;
-    height: 230px;
+    width: 175px;
+    height: 175px;
     background-color: rgb(36, 41, 143);
     float: left;
     margin-left: 10px;
@@ -527,7 +532,10 @@ ul#ul-class-price li {
 
 .cartItemName,
 .cartDescriptionText,
-.cartSellPrice {
+.cartSellPrice,
+.nieuwAantalText,
+.totaalPrijsText,
+.aantalProductenText {
     color: #676EFF;
     font-family: vortice-concept, sans-serif;
 }
@@ -536,7 +544,10 @@ ul#ul-class-price li {
     font-family: vortice-concept, sans-serif;
 }
 .cartArtikelNR,
-.cartDescriptionText {
+.cartDescriptionText,
+.nieuwAantalText,
+.totaalPrijsText,
+.aantalProductenText {
     font-size: 12px;
 }
 
@@ -549,10 +560,34 @@ ul#ul-class-price li {
 }
 
 .cartSellPrice {
-    margin-top: 2.5rem;
+    margin-top: -3rem;
 }
 
 .cartSellBTW {
     color: white;
+}
+
+.summary {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 3vh;
+    color: rgb(65, 65, 65)
+}
+
+.cartItemSeperator:not(:last-child) {
+    border-top:3px solid white;
+}
+
+.cartImgWrapper:not(:first-child) {
+    margin-top:2.5rem;
+}
+
+.cartContentWrapper {
+    padding-right: 2.5rem;
+}
+
+p.nieuwAantalText > label > input {
+    width: 50%;
 }
 /* Einde van winkelwagen styling */
