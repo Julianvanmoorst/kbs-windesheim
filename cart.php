@@ -34,6 +34,7 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
 </tr>
 <?php
 foreach ($_SESSION["cart"] as $itemID => $item) {
+    
     $product = getStockItem($itemID, $databaseConnection);
         if (isset($product['StockItemName'])) { ?>
 				<tr>
