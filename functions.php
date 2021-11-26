@@ -1,6 +1,6 @@
 <?php
-function getCart()
-{
+// Begin functies voor het winkelwagentje
+function getCart() {
     if (isset($_SESSION['cart'])) {
         $cart = $_SESSION['cart'];
     } else {
@@ -10,13 +10,11 @@ function getCart()
     return $cart;
 }
 
-function saveCart($cart)
-{
+function saveCart($cart) {
     $_SESSION['cart'] = $cart;
 }
 
-function addProductToCart($stockItemID)
-{
+function addProductToCart($stockItemID) {
     $cart = getCart();
     if (array_key_exists($stockItemID, $cart)) {
         $cart[$stockItemID] += 1;
@@ -26,8 +24,7 @@ function addProductToCart($stockItemID)
     saveCart($cart);
 }
 
-function deleteProductFromCart($StockItemID)
-{
+function deleteProductFromCart($StockItemID) {
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'delete') {
             foreach ($_SESSION['cart'] as $key => $value) {
@@ -40,8 +37,7 @@ function deleteProductFromCart($StockItemID)
     }
 }
 
-function editProduct($stockItemID, $nieuwAantal, $cart)
-{
+function editProduct($stockItemID, $nieuwAantal, $cart) {
     if ($nieuwAantal <= 0) {
         unset($cart[$stockItemID]);
     } else {
@@ -49,3 +45,11 @@ function editProduct($stockItemID, $nieuwAantal, $cart)
     }
     return saveCart($cart);
 }
+// Eind functies voor het winkelwagentje
+
+// Begin checkout functies
+
+
+
+// Eind checkout functies
+

@@ -1,6 +1,6 @@
 <?php
 include __DIR__ . "/header.php";
-include __DIR__ . "/cartFunctions.php";
+include __DIR__ . "/functions.php";
 // Foreach loop maken over cart om resultaat op te halen
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'delete') {
@@ -14,13 +14,6 @@ if (isset($_GET['action'])) {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <title>Winkelwagen</title>
-</head>
-<body>
 <h2 class="text-center">Inhoud Winkelwagen</h2>
 <div class="mt-5" id="shopping-cart">
 <?php
@@ -70,7 +63,10 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
             <div class="row">
                 <div class="col totaalPrijsText">Totaal prijs: </div>
                 <div class="col text-right"><?php print("&euro;" . number_format($cartPrijs, 2));?></div>
-            </div> <input type="submit" class="btn btn-primary" value="Betalen">
+            </div>
+            <form action="checkout.php" method="POST"> 
+                <input type="submit" class="btn btn-primary" value="Betalen">
+            </form>
         </div>
     </div>
 </div>
