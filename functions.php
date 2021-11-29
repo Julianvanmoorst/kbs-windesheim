@@ -43,7 +43,7 @@ function editProduct($stockItemID, $nieuwAantal, $cart) {
     } else {
         $cart[$stockItemID] = $nieuwAantal;
     }
-    return saveCart($cart);
+    saveCart($cart);
 }
 // Eind functies voor het winkelwagentje
 
