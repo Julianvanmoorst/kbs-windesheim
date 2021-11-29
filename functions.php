@@ -46,10 +46,3 @@ function editProduct($stockItemID, $nieuwAantal, $cart) {
     saveCart($cart);
 }
 // Eind functies voor het winkelwagentje
-
-// Begin checkout functies
-
-
-
-// Eind checkout functies
-
