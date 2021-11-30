@@ -4,33 +4,33 @@ include __DIR__ . '/header.php';
 <div class="mt-5 container">
     <div class="row">
         <div class="col-8 checkout">
-            <h4 class="text-center text-dark naw">Adresgegevens</h4>
+            <h4 class="text-center nawHeader">Adresgegevens</h4>
             <form action="processCheckout.php" class="addressForm">
                 <div class="row">
                     <div class="col-6">
-                        <input type="text" name="customerFirstName" placeholder="Voornaam...">
+                        <input type="text" name="customerFirstName" placeholder="Voornaam..." required>
                     </div>
                     <div class="col-6">
-                        <input type="text" name="customerLastName" placeholder="Achternaam...">
+                        <input type="text" name="customerLastName" placeholder="Achternaam..." required>
                     </div>
                     <div class="col-12 mt-3">
-                        <input type="text" name="customerAddress" placeholder="Adres...">
+                        <input type="text" name="customerAddress" placeholder="Adres..." required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="text" name="customerPostalCode" placeholder="Postcode...">
+                        <input type="text" name="customerPostalCode" placeholder="Postcode..." required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="text" name="customerCity" placeholder="Stad...">
+                        <input type="text" name="customerCity" placeholder="Stad..." required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="email" name="customerEmail" placeholder="E-mailadres...">
+                        <input type="email" name="customerEmail" placeholder="E-mailadres..." required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer...">
+                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer..." required>
                     </div>
                     <div class="col-12 mt-3 text-center createAccount">
-                        <input type="checkbox" class="createCustomerAccount" name="customerCreateAccount">
-                        <label for="customerCreateAccount">Account aanmaken met deze gegevens?</label>
+                        <input type="checkbox" id="createUser" class="createCustomerAccount" name="customerCreateAccount">
+                        <label for="createUser">Account aanmaken met deze gegevens?</label>
                     </div>
                     <div class="col-6 customerAccountEmail mt-3">
                         <input type="email" name="customerAccountEmail" placeholder="E-mailadres...">
@@ -39,7 +39,7 @@ include __DIR__ . '/header.php';
                         <input type="password" name="customerAccountPassword" placeholder="Wachtwoord">
                     </div>
                     <div class="col-12 mt-3">
-                        <input type="submit" class="btn btn-primary text-center" value="Bestellen">
+                        <input type="submit" name="bestellen" class="btn btn-primary text-center" value="Bestellen">
                     </div>
                 </div>
             </form>
@@ -58,8 +58,7 @@ include __DIR__ . '/header.php';
                 $totaalPrijs = 0;
                 foreach($_SESSION['cart'] as $itemID => $item) {
                     $product = getStockItem($itemID, $databaseConnection);
-                    print($item . "x ");
-                    print($product['StockItemName']);
+                    print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
                     $totaalPrijs += $product['SellPrice'] * $item;
                 }
                 ?>

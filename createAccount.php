@@ -9,9 +9,20 @@ Alex vragen hoe hij dit gaat doen
  -->
 
 <?php
-if (isset($_POST['customerAccountEmail']) && isset($_POST['customerAccountPassword'])) {
-    $customerEmail = $_POST['customerAccountEmail'];
-    $customerPassword = $_POST['customerAccountPassword'];
+if (isset($_POST['bestellen'])) {
+    $customerFirstName = $_POST['customerFirstName'];
+    $customerLastName = $_POST['customerLastName'];
+    $customerAddress = $_POST['customerAddress'];
+    $customerPostalCode = $_POST['customerPostalCode'];
+    $customerCity = $_POST['customerCity'];
+    $customerEmail = $_POST['customerEmail'];
 
 
+    
+    if (isset($_POST['customerCreateAccount'])) {
+        if (isset($_POST['customerAccountEmail']) && isset($_POST['customerAccountPassword'])) {
+            $customerAccountEmail = $_POST['customerAccountEmail'];
+            $customerPassword = $_POST['customerAccountPassword'];
+        }
+    }
 }

@@ -652,7 +652,8 @@ input[name="nieuwAantal"]{
     font-size: 14px;
     font-family: vortice-concept, sans-serif;
 }
-.naw {
+.nawHeader {
+    color: black;
     font-family: vortice-concept, sans-serif;
     font-size: 24px;
 }
@@ -667,7 +668,7 @@ input[name="nieuwAantal"]{
     position: absolute;
     width: 250px;
     height:auto;
-    bottom: 0;
-    left: 20px;
+    bottom: 10px;
+    left:20px;
 }
 /* Einde van checkout pagina styling */
