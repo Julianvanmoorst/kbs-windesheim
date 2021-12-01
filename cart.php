@@ -5,13 +5,13 @@ include __DIR__ . "/functions.php";
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'delete') {
         deleteProductFromCart($_GET['id']);
-    }
+    } // Als de action delete is, verwijder het product uit het winkelmandje, zie functions.php voor de functie.
     
     if($_GET['action'] == 'edit') {
         if(isset($_POST['nieuwAantal'])){
             editProduct($_GET['id'], $_POST['nieuwAantal'], $_SESSION['cart']);
         }
-    }
+    } // Als de action edit is, wijzig het aantal, zie functions.php voor uitleg over de functie.
 }
 
 ?>
@@ -54,6 +54,7 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
                     $totaalAantal += $item;
                 }
             }
+            $_SESSION['checkoutTotal'] = $cartPrijs;
         ?>
         </div>
         <div class="col-md-4 summary">

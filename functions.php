@@ -1,4 +1,14 @@
 <?php
+include __DIR__ . '/database.php';
+$databaseConnection = connectToDatabase();
+
+// Maak nieuwe klant aan in database
+function createCustomer($email, $password) {
+    
+}
+
+// Eind nieuwe klant aanmaken in database
+
 // Begin functies voor het winkelwagentje
 function getCart()
 {
@@ -9,12 +19,12 @@ function getCart()
     }
 
     return $cart;
-}
+} // Haal cart op, wanneer de session cart nog niet bestaat, maak gewoon een lege array aan.
 
 function saveCart($cart)
 {
     $_SESSION['cart'] = $cart;
-}
+} // Sla de cart op in de sessie.
 
 function addProductToCart($stockItemID)
 {
@@ -25,21 +35,17 @@ function addProductToCart($stockItemID)
         $cart[$stockItemID] = 1;
     }
     saveCart($cart);
-}
+} // Voeg een product toe aan de cart, wanneer het product al aanwezig is in de winkelwagen voeg er gewoon 1 bij op
 
 function deleteProductFromCart($StockItemID)
 {
-    if (isset($_GET['action'])) {
-        if ($_GET['action'] == 'delete') {
-            foreach ($_SESSION['cart'] as $key => $value) {
-                if ($key == $_GET['id']) {
-                    unset($_SESSION['cart'][$key]);
-                    echo '<script>window.location="../cart.php"</script>';
-                }
-            }
+    foreach ($_SESSION['cart'] as $key => $value) {
+        if ($key == $_GET['id']) {
+            unset($_SESSION['cart'][$key]);
+            echo '<script>window.location="../cart.php"</script>';
         }
     }
-}
+} // Code om het product te verwijderen uit de winkelwagen
 
 function editProduct($stockItemID, $nieuwAantal, $cart)
 {
@@ -49,5 +55,12 @@ function editProduct($stockItemID, $nieuwAantal, $cart)
         $cart[$stockItemID] = $nieuwAantal;
     }
     saveCart($cart);
-}
+} // Code om het product aantal te wijzigen naar het nieuwe aantal.
+
 // Eind functies voor het winkelwagentje
+
+// Checkout functies
+function processOrder() {
+
+}
+// Eind checkout functies

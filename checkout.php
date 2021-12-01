@@ -3,9 +3,16 @@ include __DIR__ . '/header.php';
 ?>
 <div class="mt-5 container">
     <div class="row">
+        <div class="col-12 errorWrapper">
+            <?php 
+                if(isset($_SESSION['checkoutErrorMSG'])) {
+                    print("hoi");
+                }
+            ?> 
+        </div>
         <div class="col-8 checkout">
             <h4 class="text-center nawHeader">Adresgegevens</h4>
-            <form action="processCheckout.php" class="addressForm">
+            <form action="processCheckout.php" class="addressForm" method="POST">
                 <div class="row">
                     <div class="col-6">
                         <input type="text" name="customerFirstName" placeholder="Voornaam..." required>
@@ -59,7 +66,6 @@ include __DIR__ . '/header.php';
                 foreach($_SESSION['cart'] as $itemID => $item) {
                     $product = getStockItem($itemID, $databaseConnection);
                     print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
-                    $totaalPrijs += $product['SellPrice'] * $item;
                 }
                 ?>
                 </div>
@@ -67,7 +73,7 @@ include __DIR__ . '/header.php';
             <hr>
             <div class="row totaalPrijs">
                 <div class="col">
-                    <p>Te Betalen: <?php print("&euro; " . number_format($totaalPrijs, 2)); ?></p>
+                    <p>Te Betalen: <?php print("&euro; " . number_format($_SESSION['checkoutTotal'], 2)); ?></p>
                 </div>
             </div>
             <div class="row idealWrapper">
