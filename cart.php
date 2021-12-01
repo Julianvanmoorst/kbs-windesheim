@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
         }
     }
 }
+
 ?>
 <h2 class="text-center">Inhoud Winkelwagen</h2>
 <div class="mt-5" id="shopping-cart">
@@ -28,19 +29,24 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
         foreach ($_SESSION["cart"] as $itemID => $item) {
             $product = getStockItem($itemID, $databaseConnection);
             $productIMG = getStockItemImage($itemID, $databaseConnection);
+            $voorraad = explode(': ', $product['QuantityOnHand']);
+            $voorraad = $voorraad[1];
+
             if (isset($product['StockItemName'])) { ?>
-                    <div class="col-xs-6 cartImgWrapper">
+                    <div class="col-xs-4 cartImgWrapper">
                         <img src="Public/StockItemIMG/<?php print($productIMG[0]['ImagePath']); ?>" class="cartProductIMG" alt="<?php print($productIMG[0]['ImagePath']);?>">
                     </div>
-                    <div class="col-xs-6 cartContentWrapper">
+                    <div class="col-xs-8 cartContentWrapper">
                         <h5 class="cartItemName"><?php echo $product['StockItemName']; ?></h5>
                         <div class="cartArtikelNR">Artikelnummer: <?php print($product['StockItemID']); ?></div>
                         <p class="cartDescriptionText">Beschrijving: </p>
                         <p class="cartDescription"><?php print($product['SearchDetails']);?></p>
-                        <div class="text-right cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW">Inclusief BTW.</b></div>
+                        <div class="text-right cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW mt-2">Inclusief BTW.</b></div>
+                        <div class="col-12 text-left">
                         <form action="cart.php?action=edit&id=<?php print $itemID; ?>" method="POST">
-                            <p class="nieuwAantalText"><label for="nieuwAantal">Aantal: <br><input type="number" name="nieuwAantal" value="<?php print($item);?>"></label></p>
+                            <p class="nieuwAantalText"><label for="nieuwAantal">Aantal: <br><input type="number" name="nieuwAantal" max="<?php print($voorraad); ?>" value="<?php print($item);?>"></label></p>
                         </form>
+                        </div>
                     </div>
                     <hr class="cartItemSeperator">
                 <?php
