@@ -41,11 +41,13 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
                         <div class="cartArtikelNR">Artikelnummer: <?php print($product['StockItemID']); ?></div>
                         <p class="cartDescriptionText">Beschrijving: </p>
                         <p class="cartDescription"><?php print($product['SearchDetails']);?></p>
-                        <div class="text-right cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW mt-2">Inclusief BTW.</b></div>
-                        <div class="col-12 text-left">
-                        <form action="cart.php?action=edit&id=<?php print $itemID; ?>" method="POST">
-                            <p class="nieuwAantalText"><label for="nieuwAantal">Aantal: <br><input type="number" name="nieuwAantal" max="<?php print($voorraad); ?>" value="<?php print($item);?>"></label></p>
-                        </form>
+                        <div class="row">
+                            <div class="col-6 pl-0 pr-0">
+                                <form action="cart.php?action=edit&id=<?php print $itemID; ?>" method="POST" class="nieuwAantalWrapper">
+                                    <label for="nieuwAantal" class="nieuwAantalText">Aantal: </label><input type="number" name="nieuwAantal" max="<?php print($voorraad); ?>" value="<?php print($item);?>">
+                                </form>
+                            </div>
+                            <div class="col-6 cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW mt-2">Inclusief BTW.</b></div>
                         </div>
                     </div>
                     <hr class="cartItemSeperator">

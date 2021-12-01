@@ -1,6 +1,5 @@
 <?php
-include __DIR__ . '/database.php';
-$databaseConnection = connectToDatabase();
+include_once __DIR__ . '/database.php';
 
 // Maak nieuwe klant aan in database
 function createCustomer($email, $password) {
