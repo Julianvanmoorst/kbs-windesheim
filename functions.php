@@ -2,8 +2,25 @@
 include_once __DIR__ . '/database.php';
 
 // Maak nieuwe klant aan in database
-function createCustomer($email, $password) {
-    
+function createCustomer($firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerEmail, $customerPhoneNumber, $password)
+{
+    $databaseConnection = connectToDatabase();
+    $getEmail = "SELECT email FROM accounts WHERE email=?";
+    $stmtGetEmail = $databaseConnection->prepare($getEmail);
+    $stmtGetEmail->bind_param("s", $customerEmail);
+    $stmtGetEmail->execute();
+
+    $result = $stmtGetEmail->fetch();
+
+    if (!isset($result)) {
+        $query = "INSERT INTO accounts (firstName, lastName, address, postalCode, city, phoneNumber,email)
+                 VALUES (?,?,?,?,?,?,?)";
+        $stmt = $databaseConnection->prepare($query);
+        $stmt->bind_param("sssssss", $firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerPhoneNumber, $customerEmail);
+        $stmt->execute();
+    }
+
+    // header("Location: index.php");
 }
 
 // Eind nieuwe klant aanmaken in database
@@ -59,7 +76,40 @@ function editProduct($stockItemID, $nieuwAantal, $cart)
 // Eind functies voor het winkelwagentje
 
 // Checkout functies
-function processOrder() {
+function processOrder($amountToPay, $cart, $customerEmail)
+{
+    $databaseConnection = connectToDatabase();
+    $getEmail = "SELECT accountID FROM accounts WHERE email like '$customerEmail'";
+    $result = mysqli_query($databaseConnection, $getEmail);
+    $amountToPay = number_format($amountToPay, 2);
+    $cart = json_encode($cart);
 
+    if (mysqli_num_rows($result) > 0) {
+
+        $row = mysqli_fetch_assoc($result);
+        $accountID = $row['accountID'];
+
+        $query = "INSERT INTO customer_orders (accountID, order_total, order_items)
+                 VALUES (?,?,?)";
+        $stmt = $databaseConnection->prepare($query);
+        $stmt->bind_param("sss", $accountID, $amountToPay, $cart);
+        $stmt->execute();
+
+        removeStockFromProduct($cart);
+        header("Location: index.php");
+    }
+
+}
+
+function removeStockFromProduct($cart)
+{
+    $databaseConnection = connectToDatabase();
+
+    $cart = json_decode($cart, true);
+    foreach ($cart as $itemID => $itemAmount) {
+        $query = "UPDATE stockitemholdings SET QuantityOnHand = QuantityOnHand - $itemAmount WHERE StockItemID=$itemID";
+        $stmt = $databaseConnection->prepare($query);
+        $stmt->execute();
+    }
 }
 // Eind checkout functies

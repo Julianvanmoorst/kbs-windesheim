@@ -3,13 +3,6 @@ include_once __DIR__ . '/header.php';
 ?>
 <div class="mt-5 container">
     <div class="row">
-        <div class="col-12 errorWrapper">
-            <?php 
-                if(isset($_SESSION['checkoutErrorMSG'])) {
-                    print("hoi");
-                }
-            ?> 
-        </div>
         <div class="col-8 checkout">
             <h4 class="text-center nawHeader">Adresgegevens</h4>
             <form action="processCheckout.php" class="addressForm" method="POST">
@@ -33,7 +26,7 @@ include_once __DIR__ . '/header.php';
                         <input type="email" name="customerEmail" placeholder="E-mailadres..." required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer..." required>
+                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer..." maxlength="15" required>
                     </div>
                     <div class="col-12 mt-3 text-center createAccount">
                         <input type="checkbox" id="createUser" class="createCustomerAccount" name="customerCreateAccount">
