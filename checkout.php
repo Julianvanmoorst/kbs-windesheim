@@ -38,6 +38,18 @@ include_once __DIR__ . '/header.php';
                     <div class="col-6 customerAccountPassword mt-3">
                         <input type="password" name="customerAccountPassword" placeholder="Wachtwoord">
                     </div>
+                    <div class="col-12 text-center">
+                        <label for="paymentProvider" class="paymentProvider">Kies uw bank</label>
+                        <select name="paymentProvider" class="paymentProviderSelect">
+                            <option value="ASN Bank">ASN Bank</option>
+                            <option value="ABN Amro">ABN Amro</option>
+                            <option value="Bunq">Bunq</option>
+                            <option value="ING Bank">ING</option>
+                            <option value="Knab">Knab</option>
+                            <option value="Rabobank">Rabobank</option>
+                            <option value="SNS">SNS</option>
+                        </select>
+                    </div>
                     <div class="col-12 mt-3">
                         <input type="submit" name="bestellen" class="btn btn-primary text-center" value="Bestellen">
                     </div>
@@ -55,12 +67,12 @@ include_once __DIR__ . '/header.php';
             <div class="row">
                 <div class="col productenDesc">
                 <?php
-                $totaalPrijs = 0;
-                foreach($_SESSION['cart'] as $itemID => $item) {
-                    $product = getStockItem($itemID, $databaseConnection);
-                    print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
-                }
-                ?>
+$totaalPrijs = 0;
+foreach ($_SESSION['cart'] as $itemID => $item) {
+    $product = getStockItem($itemID, $databaseConnection);
+    print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
+}
+?>
                 </div>
             </div>
             <hr>
