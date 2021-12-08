@@ -2,7 +2,7 @@
 include_once __DIR__ . '/database.php';
 
 // Maak nieuwe klant aan in database
-function createCustomer($firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerEmail, $customerPhoneNumber, $password)
+function createCustomer($firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerEmail, $customerPhoneNumber, $userEmail, $userPassword, $canLogin)
 {
     $databaseConnection = connectToDatabase();
     $getEmail = "SELECT email FROM accounts WHERE email=?";
@@ -12,16 +12,37 @@ function createCustomer($firstName, $lastName, $customerAddress, $postalCode, $c
 
     $result = $stmtGetEmail->fetch();
 
-    if (!isset($result)) {
-        $query = "INSERT INTO accounts (firstName, lastName, address, postalCode, city, phoneNumber,email)
+    if ($canLogin == false) {
+        if (!isset($result)) {
+            $query = "INSERT INTO accounts (firstName, lastName, address, postalCode, city, phoneNumber,email)
                  VALUES (?,?,?,?,?,?,?)";
-        $stmt = $databaseConnection->prepare($query);
-        $stmt->bind_param("sssssss", $firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerPhoneNumber, $customerEmail);
-        $stmt->execute();
-    }
+            $stmt = $databaseConnection->prepare($query);
+            $stmt->bind_param("sssssss", $firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerPhoneNumber, $customerEmail);
+            $stmt->execute();
+        }
+    } else {
+        if (!isset($result)) {
+            $hashedPassword = sha1($userPassword);
 
-    // header("Location: index.php");
-}
+            $query = "INSERT INTO accounts (firstName, lastName, address, postalCode, city, phoneNumber,email, password, canLogin)
+                 VALUES (?,?,?,?,?,?,?,?,?)";
+            $stmt = $databaseConnection->prepare($query);
+            $stmt->bind_param("sssssssss", $firstName, $lastName, $customerAddress, $postalCode, $customerCity, $customerPhoneNumber, $customerEmail, $hashedPassword, $canLogin);
+            $stmt->execute();
+        }
+    }
+    header("Location: index.php");
+} // Code om een customer aan te maken in de database.
+
+function convertCustomer($userPassword, $canLogin, $userEmail)
+{
+    $hashedPassword = sha1($userPassword);
+    $databaseConnection = connectToDatabase();
+    $query = "UPDATE accounts SET password=?, canLogin=? WHERE email=?";
+    $stmt = $databaseConnection->prepare($query);
+    $stmt->bind_param("sss", $hashedPassword, $canLogin, $userEmail);
+    $stmt->execute();
+} // Als een gebruiker met een bestaand account een account wilt aanmaken om in te loggen, wordt deze functie uitgevoerd.
 
 // Eind nieuwe klant aanmaken in database
 
@@ -96,10 +117,13 @@ function processOrder($amountToPay, $cart, $customerEmail)
         $stmt->execute();
 
         removeStockFromProduct($cart);
-        header("Location: index.php");
-    }
 
-}
+        unset($_SESSION['checkoutTotal']);
+        unset($_SESSION['cart']);
+
+        header("Location: index.php?payment=success");
+    }
+} // Code om de bestelling van de klant uit te voeren en in de database te stoppen
 
 function removeStockFromProduct($cart)
 {
@@ -111,5 +135,5 @@ function removeStockFromProduct($cart)
         $stmt = $databaseConnection->prepare($query);
         $stmt->execute();
     }
-}
+} // Code om na een bestelling het aantal aan te passen in de database.
 // Eind checkout functies
