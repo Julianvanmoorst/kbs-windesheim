@@ -34,7 +34,9 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
 
             if (isset($product['StockItemName'])) { ?>
                     <div class="col-xs-4 cartImgWrapper">
-                        <img src="Public/StockItemIMG/<?php print($productIMG[0]['ImagePath']); ?>" class="cartProductIMG" alt="<?php print($productIMG[0]['ImagePath']);?>">
+                        <a href="view.php?id=<?php print($product['StockItemID']); ?>">
+                            <img src="Public/StockItemIMG/<?php print($productIMG[0]['ImagePath']); ?>" class="cartProductIMG" alt="<?php print($productIMG[0]['ImagePath']);?>">
+                        </a>
                     </div>
                     <div class="col-xs-8 cartContentWrapper">
                         <h5 class="cartItemName"><?php echo $product['StockItemName']; ?></h5>
@@ -44,7 +46,8 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
                         <div class="row">
                             <div class="col-6 pl-0 pr-0">
                                 <form action="cart.php?action=edit&id=<?php print $itemID; ?>" method="POST" class="nieuwAantalWrapper">
-                                    <label for="nieuwAantal" class="nieuwAantalText">Aantal: </label><input type="number" name="nieuwAantal" max="<?php print($voorraad); ?>" value="<?php print($item);?>">
+                                    <label for="nieuwAantal" class="nieuwAantalText">Aantal: </label>
+                                    <input type="number" name="nieuwAantal" max="<?php print($voorraad); ?>" value="<?php print($item);?>">
                                 </form>
                             </div>
                             <div class="col-6 cartSellPrice"><?php echo "€ " . number_format($product["SellPrice"], 2); ?><br><b class="cartSellBTW mt-2">Inclusief BTW.</b></div>
