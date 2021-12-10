@@ -56,6 +56,15 @@ $databaseConnection = connectToDatabase();
             <li>
                 <a href="browse.php" class="HrefDecoration"><i class="fas fa-search search"></i> Zoeken</a>
             </li>
+            <li>
+            <?php
+                if (isset($_SESSION['customerFirstName'])) {
+                    echo '<a class="HrefDecoration" href="logout.php" id="clickLogout">Uitloggen</a>';
+                } else {
+                    echo '<a class="HrefDecoration" href="login.php">Inloggen</a>';
+                }
+            ?>
+            </li>
         </ul>
 
         <!-- einde code voor US3 zoeken -->

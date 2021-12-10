@@ -2,7 +2,7 @@
 <?php
 include __DIR__ . "/header.php";
 ?>
-<div id="myModal" class="modal fade">
+<div id="paymentSuccess" class="modal fade">
 	<div class="modal-dialog modal-confirm">
 		<div class="modal-content">
 			<div class="modal-header justify-content-center">
@@ -14,6 +14,23 @@ include __DIR__ . "/header.php";
 			<div class="modal-body text-center">
 				<h4>Uw bestelling is geplaatst!</h4>
 				<p>Wij zullen zo snel mogelijk beginnen met uw bestelling!</p>
+				<button class="btn btn-success" data-dismiss="modal"><span>Doorgaan</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="loginSuccess" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header justify-content-center">
+				<div class="icon-box">
+                    <i class="fas fa-check"></i>
+				</div>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body text-center">
+				<h4>Hoi <?php if (isset($_SESSION['customerFirstName'])) {echo ($_SESSION['customerFirstName']);} ?>!</h4>
+				<p>Je bent nu ingelogd op onze webshop, veel plezier!</p>
 				<button class="btn btn-success" data-dismiss="modal"><span>Doorgaan</span></button>
 			</div>
 		</div>

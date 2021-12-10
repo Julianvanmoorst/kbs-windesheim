@@ -680,7 +680,7 @@ form input[name="nieuwAantal"] {
 
 .paymentProvider {
   margin-top: 2.5rem;
-  margin-bottom:2rem;
+  margin-bottom: 2rem;
   color: black;
   font-family: vortice-concept, sans-serif;
   font-size: 16px;
@@ -786,3 +786,29 @@ form input[name="nieuwAantal"] {
 }
 
 /* Eind betaling succesvol box styling */
+
+/* Styling login pagina */
+#login .container #login-row #login-column #login-box {
+  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  margin-top: 120px;
+  max-width: 600px;
+  height: 400px;
+  border: 1px solid #9c9c9c;
+  background-color: #eaeaea;
+}
+
+#login .login_header {
+  color: #676eff;
+  font-family: vortice-concept, sans-serif;
+  font-size: 24px;
+}
+
+#login .login_fields {
+  color: black;
+}
+
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+}
+
+/* Eind styling login pagina */

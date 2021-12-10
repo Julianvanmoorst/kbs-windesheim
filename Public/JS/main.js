@@ -26,7 +26,11 @@ $(document).ready(function () {
     }
   };
 
-  if($.urlParam('payment') == 'success') {
-      $('#myModal').modal('show');
+  if ($.urlParam("payment") == "success") {
+    $("#paymentSuccess").modal("show");
+  }
+
+  if ($.urlParam("login") == "success") {
+    $("#loginSuccess").modal("show");
   }
 });
