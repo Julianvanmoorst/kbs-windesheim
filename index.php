@@ -29,7 +29,7 @@ include __DIR__ . "/header.php";
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
 			<div class="modal-body text-center">
-				<h4>Hoi <?php if (isset($_SESSION['customerFirstName'])) {echo ($_SESSION['customerFirstName']);} ?>!</h4>
+				<h4>Hoi <?php if (isset($_SESSION['customerDetails'])) {print($_SESSION['customerDetails']['customerFirstName']);} ?>!</h4>
 				<p>Je bent nu ingelogd op onze webshop, veel plezier!</p>
 				<button class="btn btn-success" data-dismiss="modal"><span>Doorgaan</span></button>
 			</div>

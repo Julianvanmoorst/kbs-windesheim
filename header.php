@@ -47,18 +47,16 @@ $databaseConnection = connectToDatabase();
                 </li>
             </ul>
         </div>
-        <!-- code voor US3: zoeken -->
-
         <ul id="ul-class-navigation">
-            <li>
-                <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart shopping-cart"></i> Winkelwagen</a>
-            </li>
             <li>
                 <a href="browse.php" class="HrefDecoration"><i class="fas fa-search search"></i> Zoeken</a>
             </li>
             <li>
+                <a href="cart.php" class="HrefDecoration"><i class="fas fa-shopping-cart shopping-cart"></i> Winkelwagen</a>
+            </li>
+            <li>
             <?php
-                if (isset($_SESSION['customerFirstName'])) {
+                if (isset($_SESSION['customerDetails']['customerFirstName'])) {
                     echo '<a class="HrefDecoration" href="logout.php" id="clickLogout">Uitloggen</a>';
                 } else {
                     echo '<a class="HrefDecoration" href="login.php">Inloggen</a>';
@@ -66,8 +64,6 @@ $databaseConnection = connectToDatabase();
             ?>
             </li>
         </ul>
-
-        <!-- einde code voor US3 zoeken -->
     </div>
     <div class="row" id="Content">
         <div class="col-12">

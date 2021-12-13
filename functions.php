@@ -99,6 +99,10 @@ function editProduct($stockItemID, $nieuwAantal, $cart)
 // Checkout functies
 function processOrder($amountToPay, $cart, $customerEmail)
 {
+    // I.p.v accounts en customer_orders in de bestaande tabellen (customers, orderlines, orders)
+    // In orderlines komen de producten 1 voor 1 in de tabel orderlines (zelfde orderID).
+    // In orders ??
+    // In customers ??
     $databaseConnection = connectToDatabase();
     $getEmail = "SELECT accountID FROM accounts WHERE email like '$customerEmail'";
     $result = mysqli_query($databaseConnection, $getEmail);
@@ -137,3 +141,32 @@ function removeStockFromProduct($cart)
     }
 } // Code om na een bestelling het aantal aan te passen in de database.
 // Eind checkout functies
+
+// Begin temperatuur functies
+function insertTemperatureInDB()
+{
+    $conn = connectToDatabase();
+
+    // TODO: temperaturen meten en inserten in coldroomtemperatures
+    // TODO: Oude temperatuur (dus na de 3 seconde) moet de temperatuur naar coldroomtemperatures_archive
+
+} // Functie om de temperatuur om de 3 seconde toe te voegen aan de jusite tabellen.
+
+function retrieveTemperatureFromDB()
+{
+    $conn = connectToDatabase();
+
+    // Specifiek waar ColdRoomSensorNumber 5 is aangezien dat een eis is vanuit de klant
+    while (true) {
+        $query = "SELECT Temperature FROM coldroomtemperatures WHERE ColdRoomSensorNumber = 5";
+        sleep(3);
+    } // Loop die om de 3 seconde de temperatuur uit de database haalt.
+
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    $temps = $stmt->get_result()->fetch_assoc();
+    return ($temps);
+} // Functie om de temperatuur uit de database te halen om de 3 seconde
+
+// Eind temperatuur functies
