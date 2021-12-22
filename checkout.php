@@ -8,25 +8,25 @@ include_once __DIR__ . '/header.php';
             <form action="processCheckout.php" class="addressForm" method="POST">
                 <div class="row">
                     <div class="col-6">
-                        <input type="text" name="customerFirstName" placeholder="Voornaam..." required>
+                        <input type="text" name="customerFirstName" placeholder="Voornaam..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerFirstName']);} ?>" required>
                     </div>
                     <div class="col-6">
-                        <input type="text" name="customerLastName" placeholder="Achternaam..." required>
+                        <input type="text" name="customerLastName" placeholder="Achternaam..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerLastName']);} ?>" required>
                     </div>
                     <div class="col-12 mt-3">
-                        <input type="text" name="customerAddress" placeholder="Adres..." required>
+                        <input type="text" name="customerAddress" placeholder="Adres..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerAddress']);} ?>"  required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="text" name="customerPostalCode" placeholder="Postcode..." required>
+                        <input type="text" name="customerPostalCode" placeholder="Postcode..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerPostalCode']);} ?>"   required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="text" name="customerCity" placeholder="Stad..." required>
+                        <input type="text" name="customerCity" placeholder="Stad..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerCity']);} ?>"   required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="email" name="customerEmail" placeholder="E-mailadres..." required>
+                        <input type="email" name="customerEmail" placeholder="E-mailadres..." value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerEmail']);} ?>"   required>
                     </div>
                     <div class="col-6 mt-3">
-                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer..." maxlength="15" required>
+                        <input type="tel" name="customerPhoneNumber" placeholder="Telefoonnummer..." maxlength="15" value="<?php if(isset($_SESSION['customerDetails'])){print($_SESSION['customerDetails']['customerPhoneNumber']);} ?>"   required>
                     </div>
                     <div class="col-12 mt-3 text-center createAccount">
                         <input type="checkbox" id="createUser" class="createCustomerAccount" name="customerCreateAccount">
@@ -44,7 +44,7 @@ include_once __DIR__ . '/header.php';
                             <option value="ASN Bank">ASN Bank</option>
                             <option value="ABN Amro">ABN Amro</option>
                             <option value="Bunq">Bunq</option>
-                            <option value="ING Bank">ING</option>
+                            <option value="ING Bank" selected>ING</option>
                             <option value="Knab">Knab</option>
                             <option value="Rabobank">Rabobank</option>
                             <option value="SNS">SNS</option>
@@ -67,12 +67,12 @@ include_once __DIR__ . '/header.php';
             <div class="row">
                 <div class="col productenDesc">
                 <?php
-$totaalPrijs = 0;
-foreach ($_SESSION['cart'] as $itemID => $item) {
-    $product = getStockItem($itemID, $databaseConnection);
-    print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
-}
-?>
+                $totaalPrijs = 0;
+                foreach ($_SESSION['cart'] as $itemID => $item) {
+                    $product = getStockItem($itemID, $databaseConnection);
+                    print("<div>" . $item . "x " . $product['StockItemName'] . "</div>");
+                }
+                ?>
                 </div>
             </div>
             <hr>
