@@ -86,7 +86,7 @@ if (!empty($_SESSION['cart']) && isset($_SESSION['cart'])) {
 } else {
     ?>
 <h3 class="text-center cart-empty">Winkelwagen is leeg</h3>
-<p class="text-center"><a class="cart-ref" href="../index.php">Terug naar winkel</a></p>
+<p class="text-center"><a class="cart-ref" href="./index.php">Terug naar winkel</a></p>
 <?php
 }
 ?>
